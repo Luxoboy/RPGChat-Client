@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <thread>
 
 using namespace std;
 
@@ -14,10 +15,10 @@ int socket_d; // Socket descriptor
 bool messageReceived;
 char receivingBuffer[1000];
 pthread_t receivingThread;
+thread * listening_thread;
 
-void recvThread(void *arg)
+void recvThread()
 {
-    char* buf = (char*)arg;
     int socket_d_loc = socket_d;
     
     cout<< "Listening thread created successfully.\nListening...\n";
@@ -33,9 +34,9 @@ void recvThread(void *arg)
         
         if(res != -1)
         {
-            buf[res] = '\0';
+            receivingBuffer[res] = '\0';
             messageReceived = true;
-            cout << "Message received:\n" << buf <<endl;
+            cout << "Message received:\n" << receivingBuffer <<endl;
             readMessage(receivingBuffer);
         }
     }
@@ -62,7 +63,9 @@ bool initNetwork()
     {
         return false;
     }
-    send("{ \"idModule\": \"localisation\", \"action\": \"init\" }\n");
+    
+    cout << "Creating listening thread." << endl;
+    listening_thread = new thread(&recvThread);
     return true;
 }
 

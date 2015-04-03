@@ -7,7 +7,10 @@
 #include <string>
 #include <unistd.h>
 
-
+namespace std
+{
+    class thread;
+}
 
 /**
  * @brief Init the network configuration.
@@ -43,10 +46,9 @@ bool send(std::string msg);
 
 /**
  * Thread method that listens to incoming messages.
- * @param arg
  * @return 
  */
-void recvThread(void* arg);
+void recvThread();
 
 extern int status;
 extern struct addrinfo host_info; // The struct that getaddrinfo() fills up with data.
@@ -56,6 +58,7 @@ extern int socket_d; // Socket descriptor
 extern bool messageReceived;
 extern char receivingBuffer[1000];
 extern pthread_t receivingThread;
+extern std::thread * listening_thread;
 
 #endif	/* NETWORK_H */
 
