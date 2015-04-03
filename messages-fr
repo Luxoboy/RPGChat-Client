@@ -1,0 +1,27 @@
+100 Succès
+101 Le pseudo proposé n'est pas valide.
+102 Le pseudo proposé est déjà utilisé.
+103 La partie n'a pas commencé.
+104 Vous etes le maître du jeu, vous ne pouvez pas rejoindre la partie.
+105 Vous êtes mort.
+106 Le nombre de joueurs doit être un entier positif.
+107 Vous devez choisir un nombre de joueurs.
+108 Il n'y a pas assez de joueurs pour commencer la partie.
+109 Il n'y a plus de places pour cette partie.
+110 Le pseudo n'existe pas, le message n'a pas été acheminé.
+111 Les bornes de l'intervalle ne sont pas valides.
+112 Vous êtes le premier joueur connecté, vous êtes le maître du jeu.
+113 Vous devez préciser un pseudo.
+114 Vous avez déjà rejoint la partie.
+115 La partie a déjà démarré.
+116 Message invalide.
+117 Il manque un ou plusieurs argument(s).
+118 Le maître du jeu n'a pas encore défini le nombre de joueurs.
+119 Vous êtes le seul joueur.
+120 Le maître a défini le nombre de joueurs, vous pouvez rejoindre.
+121 Vous devez passer un entier relatif pour modifier les points de vie de joueur(s).
+122 Vous n'êtes pas en train de jouer.
+123 La partie a démarré !
+124 La partie a été interrompue.
+125 Commande inconnue.
+126 Bienvenue sur le serveur !

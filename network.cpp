@@ -16,6 +16,7 @@ bool messageReceived;
 char receivingBuffer[1000];
 pthread_t receivingThread;
 thread * listening_thread;
+mutex statusMutex;
 
 void recvThread()
 {
@@ -24,11 +25,14 @@ void recvThread()
     cout<< "Listening thread created successfully.\nListening...\n";
     while(true)
     {
-        int res = recv(socket_d_loc, receivingBuffer, 1000, MSG_DONTWAIT);
+        int res = recv(socket_d_loc, receivingBuffer, 1000, 0);
         
         if (res == 0)
         {
             cerr << "Connexion was shut down by server." << endl;
+            statusMutex.lock();
+            status = -1;
+            statusMutex.unlock();
             return;
         }
         
@@ -36,7 +40,6 @@ void recvThread()
         {
             receivingBuffer[res] = '\0';
             messageReceived = true;
-            cout << "Message received:\n" << receivingBuffer <<endl;
             readMessage(receivingBuffer);
         }
     }
@@ -66,6 +69,7 @@ bool initNetwork()
     
     cout << "Creating listening thread." << endl;
     listening_thread = new thread(&recvThread);
+    status = 1;
     return true;
 }
 
@@ -80,8 +84,15 @@ bool createSocket()
         cout << "Failed to create the socket." << endl;
         return false;
     }
-
+    
     cout << "Socket created successfully." << endl;
+    struct timeval timeout;      
+    timeout.tv_sec = 1;
+    timeout.tv_usec = 0;
+    
+    if (setsockopt(socket_d, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout,
+                sizeof(timeout)) < 0)
+        perror("[SERVER] Setting socket timeout");
     return true;
 }
 
@@ -114,20 +125,15 @@ bool send(string msg)
 {
     if (status == -1)
     {
-        cerr << "Not connected to server, cannot send message." << endl;
         return false;
     }
     
-    cout << "Trying to send following message:\n\"" << msg << "\"\n";
-
     int res = send(socket_d, msg.c_str(), msg.size(), 0);
 
     if ((uint)res != msg.size())
     {
-        cerr << "Error occured when sending message to server." << endl;
         return false;
     }
 
-    cout << "Message sucessfully sent to server." << endl;
     return true;
 }

@@ -9,6 +9,7 @@
 #define	GLOBAL_H
 
 extern void readMessage(char*);
+extern char* messages_path;
 
 #endif	/* GLOBAL_H */
 

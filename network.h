@@ -6,6 +6,7 @@
 #include <netdb.h>
 #include <string>
 #include <unistd.h>
+#include <mutex>
 
 namespace std
 {
@@ -59,6 +60,7 @@ extern bool messageReceived;
 extern char receivingBuffer[1000];
 extern pthread_t receivingThread;
 extern std::thread * listening_thread;
+extern std::mutex statusMutex;
 
 #endif	/* NETWORK_H */
 
